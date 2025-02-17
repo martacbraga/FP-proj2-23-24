@@ -1,72 +1,58 @@
-# TAD INTERSEÇÃO
+# README - Go Game Implementation in Python
 
-## Descrição
-Este módulo define o Tipo Abstrato de Dados (TAD) para interseções, pedras e um tabuleiro de Go (Goban). Ele fornece funções para criar, manipular e verificar interseções, pedras e tabuleiros, além de implementar regras do jogo Go.
+## Project Overview
+This project is an implementation of the ancient board game **Go** in Python. The goal is to create a program that allows two players to compete by placing stones on a Go board while following the game's rules. The program is structured using Abstract Data Types (ADTs) to handle the game logic efficiently.
 
-## Funcionalidades
-O módulo inclui as seguintes funcionalidades:
-- Criar e verificar interseções no tabuleiro.
-- Criar e manipular pedras (brancas, pretas e neutras).
-- Criar, modificar e verificar um Goban (tabuleiro de Go).
-- Implementar regras como captura de pedras e territórios.
-- Cálculo de pontos e verificação de jogadas legais.
+## Game Description
+Go is a strategy board game played between two players, one using black stones and the other using white stones. The objective is to **control the largest territory** on the board by surrounding empty intersections. Capturing opponent stones and maintaining liberties for one's own stones are crucial aspects of gameplay.
 
-## Estruturas Principais
+### Board and Pieces
+- The **Goban** (board) is typically **19×19**, but smaller sizes like **13×13** and **9×9** are also supported.
+- Players place stones on intersections.
+- Stones of the same color that are connected form **chains**.
+- Chains must have **liberties** (adjacent empty intersections) to remain on the board.
+- The game ends when both players pass their turns consecutively.
+- The player with the most territory and captured stones wins.
 
-### Interseção
-Uma interseção é representada por um tuplo `(coluna, linha)`, onde:
-- `coluna` é uma letra de 'A' a 'S'
-- `linha` é um inteiro entre 1 e 19
+## Implementation Details
+This project defines and implements **three key ADTs**:
 
-Funções principais:
-- `cria_intersecao(col, lin)`: Cria uma interseção.
-- `obtem_col(i)`, `obtem_lin(i)`: Obtêm a coluna ou linha de uma interseção.
-- `eh_intersecao(arg)`: Verifica se um argumento é uma interseção válida.
-- `intersecoes_iguais(i1, i2)`: Compara duas interseções.
+### 1. **TAD Intersecao (Intersection)**
+- Represents a single point on the board.
+- Provides methods to create, retrieve coordinates, and compare intersections.
 
-### Pedra
-Uma pedra é representada por um caractere:
-- 'O' para pedra branca.
-- 'X' para pedra preta.
-- '.' para interseção vazia.
+### 2. **TAD Pedra (Stone)**
+- Represents a stone placed by a player.
+- Supports white, black, and neutral (empty) stones.
 
-Funções principais:
-- `cria_pedra_branca()`, `cria_pedra_preta()`, `cria_pedra_neutra()`: Criam pedras.
-- `eh_pedra(arg)`, `eh_pedra_branca(arg)`, `eh_pedra_preta(arg)`: Verificam o tipo de pedra.
-- `pedra_para_str(p)`: Converte uma pedra em string.
+### 3. **TAD Goban (Board)**
+- Represents the Go board and stores the positions of stones.
+- Handles placement, removal, and capturing of stones.
+- Tracks connected chains and their liberties.
+- Determines legal and illegal moves (suicide, Ko rule).
 
-### Goban
-O Goban é representado por uma matriz `n x n` contendo pedras.
+## Functions Implemented
+The following functions facilitate gameplay and board management:
 
-Funções principais:
-- `cria_goban_vazio(n)`: Cria um tabuleiro vazio.
-- `cria_goban(n, ib, ip)`: Cria um tabuleiro com pedras brancas e pretas.
-- `coloca_pedra(g, i, p)`, `remove_pedra(g, i)`: Manipulam pedras no tabuleiro.
-- `obtem_pedra(g, i)`: Retorna a pedra em uma interseção.
-- `eh_goban(arg)`: Verifica se um argumento é um Goban válido.
-- `goban_para_str(g)`: Retorna a representação em string do tabuleiro.
+### Board Management
+- `cria_goban_vazio(n)`: Creates an empty board of size `n × n`.
+- `coloca_pedra(g, i, p)`: Places a stone `p` on intersection `i`.
+- `remove_pedra(g, i)`: Removes a stone from `i`.
+- `remove_cadeia(g, t)`: Removes a chain of stones.
+- `obtem_territorios(g)`: Identifies controlled territories.
 
-### Regras do Jogo
-- `jogada(g, i, p)`: Realiza uma jogada no tabuleiro.
-- `obtem_cadeia(g, i)`: Retorna a cadeia de pedras conectadas.
-- `obtem_territorios(g)`: Obtém territórios livres.
-- `calcula_pontos(g)`: Calcula a pontuação dos jogadores.
-- `eh_jogada_legal(g, i, p, l)`: Verifica se uma jogada é legal.
+### Game Rules and Logic
+- `jogada(g, i, p)`: Executes a move, checking for captures.
+- `eh_jogada_legal(g, i, p, l)`: Verifies if a move is legal.
+- `calcula_pontos(g)`: Calculates player scores.
+- `turno_jogador(g, p, l)`: Manages a player's turn, allowing pass or move.
+- `go(n, tb, tp)`: Main game loop, allowing two players to play a full match.
 
-## Exemplo de Uso
-```python
-# Criando um tabuleiro 9x9
-board = cria_goban_vazio(9)
+## How to Run the Program
+1. Ensure **Python 3** is installed.
+2. Run the Python script containing the implementation.
+3. The game prompts users to input moves or pass.
+4. The game continues until both players pass consecutively.
+5. The final board state and scores are displayed.
 
-# Criando e posicionando pedras
-intersecao1 = cria_intersecao('D', 4)
-pedra_branca = cria_pedra_branca()
-coloca_pedra(board, intersecao1, pedra_branca)
-
-# Exibir tabuleiro
-print(goban_para_str(board))
-```
-
-## Conclusão
-Este módulo fornece uma implementação abrangente do TAD INTERSEÇÃO, PEDRA e GOBAN, permitindo a manipulação de interseções, pedras e tabuleiros de Go, bem como a aplicação das regras do jogo.
 
